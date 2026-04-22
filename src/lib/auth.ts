@@ -41,7 +41,7 @@ export async function getAuthUser(req: NextRequest) {
 
   return prisma.user.findUnique({
     where: { id: payload.userId },
-    select: { id: true, name: true, email: true, role: true, avatar: true },
+    select: { id: true, name: true, email: true, role: true, status: true, avatar: true },
   });
 }
 

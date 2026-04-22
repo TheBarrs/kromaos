@@ -16,6 +16,12 @@ enum UserRole {
   CLIENT
 }
 
+enum UserStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+}
+
 enum TaskStatus {
   BRIEFING
   IN_PROGRESS
@@ -67,14 +73,15 @@ enum WebhookEvent {
 // ─── AUTH ─────────────────────────────────────────────────────────────────────
 
 model User {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   name      String
-  email     String   @unique
+  email     String     @unique
   password  String?
-  role      UserRole @default(EDITOR)
+  role      UserRole   @default(EDITOR)
+  status    UserStatus @default(PENDING)
   avatar    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
   assignedTasks   Task[]           @relation("TaskAssignees")
   ownedTasks      Task[]           @relation("TaskOwner")

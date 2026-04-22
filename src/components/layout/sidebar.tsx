@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Users, DollarSign, CheckSquare,
-  Film, Eye, TrendingUp, Settings, Webhook, LogOut,
+  Film, Eye, TrendingUp, Settings, Webhook, LogOut, ShieldCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/auth";
@@ -62,6 +62,20 @@ export function Sidebar() {
 
       {/* Bottom */}
       <div className="border-t border-[var(--border)] px-3 py-3 space-y-0.5">
+        {user?.role === "ADMIN" && (
+          <Link
+            href="/admin"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+              pathname.startsWith("/admin")
+                ? "bg-[#6366f1]/15 text-[#818cf8] font-medium"
+                : "text-[var(--muted-fg)] hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
+            )}
+          >
+            <ShieldCheck className="h-4 w-4 shrink-0" />
+            Admin
+          </Link>
+        )}
         {BOTTOM_ITEMS.map(({ href, label, icon: Icon }) => (
           <Link
             key={href}

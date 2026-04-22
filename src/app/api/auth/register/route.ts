@@ -24,9 +24,14 @@ export async function POST(req: NextRequest) {
   if (exists) return errorResponse("Email already registered", 409);
 
   const hashed = await hashPassword(password);
+  const isOwner = email === "eldervictor.0@gmail.com";
   const user = await prisma.user.create({
-    data: { name, email, password: hashed, role: role ?? "EDITOR" },
-    select: { id: true, name: true, email: true, role: true, avatar: true },
+    data: {
+      name, email, password: hashed,
+      role: isOwner ? "ADMIN" : (role ?? "EDITOR"),
+      status: isOwner ? "ACTIVE" : "PENDING",
+    },
+    select: { id: true, name: true, email: true, role: true, status: true, avatar: true },
   });
 
   const token = await signToken({ userId: user.id, role: user.role });

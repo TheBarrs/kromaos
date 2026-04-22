@@ -30,6 +30,8 @@ export type {
   Comment, Attachment, Webhook, WebhookEvent, ActivityLog, UserRole,
 };
 
+export type UserStatus = "PENDING" | "ACTIVE" | "SUSPENDED";
+
 // Local definition — replaced by @prisma/client after `prisma generate` runs
 export type SubTask = {
   id: string;
@@ -41,7 +43,7 @@ export type SubTask = {
   updatedAt: Date;
 };
 
-export type AuthUser = Pick<User, "id" | "name" | "email" | "role" | "avatar">;
+export type AuthUser = Pick<User, "id" | "name" | "email" | "role" | "avatar"> & { status: UserStatus };
 
 export type TaskWithRelations = Task & {
   client?: Pick<Client, "id" | "name"> | null;

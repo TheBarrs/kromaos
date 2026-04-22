@@ -17,7 +17,10 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) return errorResponse("Invalid input", 400);
 
   const { email, password } = parsed.data;
-  const user = await prisma.user.findUnique({ where: { email } });
+  const user = await prisma.user.findUnique({
+    where: { email },
+    select: { id: true, name: true, email: true, role: true, status: true, avatar: true, password: true },
+  });
   if (!user || !user.password) return errorResponse("Invalid credentials", 401);
 
   const valid = await verifyPassword(password, user.password);
@@ -25,7 +28,7 @@ export async function POST(req: NextRequest) {
 
   const token = await signToken({ userId: user.id, role: user.role });
 
-  const res = successResponse({ user: { id: user.id, name: user.name, email: user.email, role: user.role, avatar: user.avatar } });
+  const res = successResponse({ user: { id: user.id, name: user.name, email: user.email, role: user.role, status: user.status, avatar: user.avatar } });
   const response = new Response(res.body, res);
   response.headers.set(
     "Set-Cookie",
