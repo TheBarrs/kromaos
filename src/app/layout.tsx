@@ -6,7 +6,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: { default: "Kroma OS", template: "%s — Kroma OS" },
+  title: { default: "Kroma", template: "%s — Kroma" },
   description: "Agency management platform",
 };
 

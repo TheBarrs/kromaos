@@ -38,10 +38,8 @@ export function Sidebar() {
     <aside className="flex h-full w-60 shrink-0 flex-col border-r border-[var(--border)] bg-[var(--surface-1)]">
       {/* Logo */}
       <div className="flex h-16 items-center gap-2.5 px-5 border-b border-[var(--border)]">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#6366f1]">
-          <span className="text-xs font-bold text-white">K</span>
-        </div>
-        <span className="text-base font-semibold tracking-tight">Kroma OS</span>
+        <img src="/logo.png" alt="Kroma" className="h-8 w-8 rounded-lg object-cover" />
+        <span className="text-base font-semibold tracking-tight">Kroma</span>
       </div>
 
       {/* Nav */}

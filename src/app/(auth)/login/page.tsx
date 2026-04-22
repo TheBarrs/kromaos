@@ -39,11 +39,9 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-[var(--background)] p-4">
       <div className="w-full max-w-sm">
         {/* Logo */}
-        <div className="flex items-center gap-2.5 mb-8">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#6366f1]">
-            <span className="text-sm font-bold text-white">K</span>
-          </div>
-          <span className="text-lg font-semibold">Kroma OS</span>
+        <div className="flex items-center gap-3 mb-8">
+          <img src="/logo.png" alt="Kroma" className="h-10 w-10 rounded-xl object-cover" />
+          <span className="text-lg font-semibold tracking-tight">Kroma</span>
         </div>
 
         <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-1)] p-7">
