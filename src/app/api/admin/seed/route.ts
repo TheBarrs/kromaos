@@ -5,7 +5,15 @@ import { prisma } from "@/lib/prisma";
 
 // One-time endpoint to promote the owner account to ADMIN + ACTIVE.
 // Protected by a secret key passed as query param.
+export async function GET(req: NextRequest) {
+  return handler(req);
+}
+
 export async function POST(req: NextRequest) {
+  return handler(req);
+}
+
+async function handler(req: NextRequest) {
   const secret = req.nextUrl.searchParams.get("secret");
   if (secret !== "kromaos-seed-2026") {
     return Response.json({ error: "Forbidden" }, { status: 403 });
