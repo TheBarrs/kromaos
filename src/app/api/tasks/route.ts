@@ -18,6 +18,8 @@ const schema = z.object({
   ownerId: z.string().optional(),
   assigneeIds: z.array(z.string()).optional(),
   tags: z.array(z.string()).optional(),
+  addToPipeline: z.boolean().optional(),
+  pipelineStage: z.enum(["IDEA","PRE_PRODUCTION","PRODUCTION","EDITING","INTERNAL_REVIEW","CLIENT_REVIEW","APPROVED","SCHEDULED"]).optional(),
 });
 
 export async function GET(req: NextRequest) {
@@ -60,18 +62,38 @@ export async function POST(req: NextRequest) {
   const parsed = schema.safeParse(body);
   if (!parsed.success) return errorResponse("Invalid input", 400, parsed.error.issues);
 
-  const { assigneeIds, ...data } = parsed.data;
+  const { assigneeIds, addToPipeline, pipelineStage, ...data } = parsed.data;
+
+  // If adding to pipeline, create the card first
+  let cardId: string | undefined;
+  if (addToPipeline) {
+    const card = await prisma.productionCard.create({
+      data: {
+        title: data.title,
+        description: data.description,
+        stage: pipelineStage ?? "IDEA",
+        clientId: data.clientId,
+        dueDate: data.dueDate ? new Date(data.dueDate) : undefined,
+        tags: data.tags ?? [],
+      },
+    });
+    cardId = card.id;
+    await prisma.cardStageHistory.create({ data: { cardId: card.id, toStage: card.stage, changedBy: user.id } });
+    await prisma.activityLog.create({ data: { entityType: "pipeline_card", entityId: card.id, action: "created", userId: user.id } });
+  }
 
   const task = await prisma.task.create({
     data: {
       ...data,
       dueDate: data.dueDate ? new Date(data.dueDate) : undefined,
       ownerId: data.ownerId ?? user.id,
+      cardId,
       assignees: assigneeIds ? { connect: assigneeIds.map((id) => ({ id })) } : undefined,
     },
     include: {
       client: { select: { id: true, name: true } },
       assignees: { select: { id: true, name: true, avatar: true } },
+      card: { select: { id: true, title: true, stage: true } },
     },
   });
 

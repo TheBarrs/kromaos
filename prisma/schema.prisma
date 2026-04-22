@@ -217,6 +217,8 @@ model Task {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
+  cardId        String?  @unique
+
   client        Client?            @relation(fields: [clientId], references: [id])
   project       Project?           @relation(fields: [projectId], references: [id])
   owner         User?              @relation("TaskOwner", fields: [ownerId], references: [id])
@@ -225,6 +227,7 @@ model Task {
   statusHistory TaskStatusHistory[]
   subTasks      SubTask[]
   activityLogs  ActivityLog[]
+  card          ProductionCard?    @relation(fields: [cardId], references: [id])
 
   @@map("tasks")
 }
@@ -277,6 +280,7 @@ model ProductionCard {
   comments     Comment[]        @relation("CardComments")
   stageHistory CardStageHistory[]
   activityLogs ActivityLog[]
+  task         Task?
 
   @@map("production_cards")
 }

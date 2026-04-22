@@ -6,7 +6,7 @@ import { Topbar } from "@/components/layout/topbar";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Plus } from "lucide-react";
+import { ArrowLeft, Plus, Film } from "lucide-react";
 import Link from "next/link";
 
 const STATUS_OPTIONS = [
@@ -24,6 +24,17 @@ const PRIORITY_OPTIONS = [
   { value: "URGENT", label: "Urgente" },
 ];
 
+const PIPELINE_STAGES = [
+  { value: "IDEA",            label: "Ideia" },
+  { value: "PRE_PRODUCTION",  label: "Pré-Produção" },
+  { value: "PRODUCTION",      label: "Produção" },
+  { value: "EDITING",         label: "Edição" },
+  { value: "INTERNAL_REVIEW", label: "Revisão Interna" },
+  { value: "CLIENT_REVIEW",   label: "Revisão do Cliente" },
+  { value: "APPROVED",        label: "Aprovado" },
+  { value: "SCHEDULED",       label: "Agendado" },
+];
+
 type Client = { id: string; name: string };
 
 export default function NewTaskPage() {
@@ -32,6 +43,7 @@ export default function NewTaskPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [tagInput, setTagInput] = useState("");
+  const [addToPipeline, setAddToPipeline] = useState(false);
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -39,6 +51,7 @@ export default function NewTaskPage() {
     priority: "MEDIUM",
     dueDate: "",
     clientId: "",
+    pipelineStage: "IDEA",
     tags: [] as string[],
   });
 
@@ -48,9 +61,7 @@ export default function NewTaskPage() {
 
   function addTag() {
     const tag = tagInput.trim();
-    if (tag && !form.tags.includes(tag)) {
-      setForm((f) => ({ ...f, tags: [...f.tags, tag] }));
-    }
+    if (tag && !form.tags.includes(tag)) setForm((f) => ({ ...f, tags: [...f.tags, tag] }));
     setTagInput("");
   }
 
@@ -72,6 +83,8 @@ export default function NewTaskPage() {
           ...form,
           clientId: form.clientId || undefined,
           dueDate: form.dueDate || undefined,
+          addToPipeline,
+          pipelineStage: addToPipeline ? form.pipelineStage : undefined,
         }),
       });
       const json = await res.json();
@@ -188,10 +201,56 @@ export default function NewTaskPage() {
                 )}
               </div>
 
+              {/* Pipeline toggle */}
+              <div className={`rounded-xl border p-4 transition-colors ${addToPipeline ? "border-[#6366f1] bg-[#6366f1]/5" : "border-[var(--border)]"}`}>
+                <button
+                  type="button"
+                  onClick={() => setAddToPipeline((v) => !v)}
+                  className="flex items-center justify-between w-full"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${addToPipeline ? "bg-[#6366f1]" : "bg-[var(--surface-3)]"}`}>
+                      <Film className={`h-4 w-4 ${addToPipeline ? "text-white" : "text-[var(--muted-fg)]"}`} />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-sm font-medium">Adicionar à Pipeline</p>
+                      <p className="text-xs text-[var(--muted-fg)]">Cria um card vinculado na Pipeline de produção</p>
+                    </div>
+                  </div>
+                  <div className={`h-5 w-9 rounded-full transition-colors ${addToPipeline ? "bg-[#6366f1]" : "bg-[var(--surface-3)]"}`}>
+                    <div className={`h-5 w-5 rounded-full bg-white shadow transition-transform ${addToPipeline ? "translate-x-4" : "translate-x-0"}`} />
+                  </div>
+                </button>
+
+                {addToPipeline && (
+                  <div className="mt-3 pt-3 border-t border-[var(--border)]">
+                    <label className="text-xs font-medium text-[var(--muted-fg)] mb-2 block">Estágio na Pipeline</label>
+                    <div className="grid grid-cols-4 gap-1.5">
+                      {PIPELINE_STAGES.map((s) => (
+                        <button
+                          key={s.value}
+                          type="button"
+                          onClick={() => setForm((f) => ({ ...f, pipelineStage: s.value }))}
+                          className={`rounded-lg px-2 py-1.5 text-xs text-center transition-colors ${
+                            form.pipelineStage === s.value
+                              ? "bg-[#6366f1] text-white"
+                              : "bg-[var(--surface-2)] text-[var(--muted-fg)] hover:bg-[var(--surface-3)]"
+                          }`}
+                        >
+                          {s.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {error && <p className="text-sm text-red-400">{error}</p>}
 
               <div className="flex gap-3 pt-2">
-                <Button type="submit" isLoading={saving}>Criar Tarefa</Button>
+                <Button type="submit" isLoading={saving}>
+                  {addToPipeline ? "Criar Tarefa + Card Pipeline" : "Criar Tarefa"}
+                </Button>
                 <Button type="button" variant="ghost" asChild>
                   <Link href="/tasks">Cancelar</Link>
                 </Button>
