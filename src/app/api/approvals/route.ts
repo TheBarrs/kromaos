@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
   const { clientId } = parseSearchParams(req.url);
   const where: Record<string, unknown> = {};
   if (clientId) where.clientId = clientId;
-  if (user.role === "CLIENT") {
+  if ((user.role as string) === "CLIENTE") {
     where.client = { crmDeal: { ownerId: user.id } };
   }
 
