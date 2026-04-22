@@ -9,8 +9,10 @@ import {
   AlertCircle, Clock, Activity,
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
+import { verifyToken } from "@/lib/auth";
 import { formatCurrency, formatRelativeTime } from "@/lib/utils";
 import { startOfMonth, endOfMonth, subMonths } from "date-fns";
+import { cookies } from "next/headers";
 
 async function getDashboardData() {
   const now = new Date();
@@ -72,8 +74,16 @@ const TASK_STATUS_MAP: Record<string, { label: string; variant: "default" | "war
   DELIVERED:   { label: "Entregue",   variant: "success" },
 };
 
+async function getRole(): Promise<string> {
+  const jar = await cookies();
+  const token = jar.get("kroma-token")?.value;
+  if (!token) return "EQUIPE";
+  const payload = await verifyToken(token);
+  return (payload?.role as string) ?? "EQUIPE";
+}
+
 export default async function DashboardPage() {
-  const data = await getDashboardData();
+  const [data, role] = await Promise.all([getDashboardData(), getRole()]);
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
@@ -82,26 +92,30 @@ export default async function DashboardPage() {
       <div className="flex-1 overflow-y-auto p-6 space-y-6">
         {/* Stat cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-          <StatCard
-            title="Receita do Mês"
-            value={formatCurrency(data.revenue.thisMonth)}
-            growth={data.revenue.growth}
-            icon={DollarSign}
-            iconColor="text-emerald-400"
-          />
-          <StatCard
-            title="MRR"
-            value={formatCurrency(data.mrr)}
-            subtitle="Receita recorrente mensal"
-            icon={TrendingUp}
-            iconColor="text-[#818cf8]"
-          />
-          <StatCard
-            title="Lucro do Mês"
-            value={formatCurrency(data.profit)}
-            icon={Activity}
-            iconColor="text-amber-400"
-          />
+          {role === "ADMIN" && (
+            <>
+              <StatCard
+                title="Receita do Mês"
+                value={formatCurrency(data.revenue.thisMonth)}
+                growth={data.revenue.growth}
+                icon={DollarSign}
+                iconColor="text-emerald-400"
+              />
+              <StatCard
+                title="MRR"
+                value={formatCurrency(data.mrr)}
+                subtitle="Receita recorrente mensal"
+                icon={TrendingUp}
+                iconColor="text-[#818cf8]"
+              />
+              <StatCard
+                title="Lucro do Mês"
+                value={formatCurrency(data.profit)}
+                icon={Activity}
+                iconColor="text-amber-400"
+              />
+            </>
+          )}
           <StatCard
             title="Clientes Ativos"
             value={data.activeClients}
