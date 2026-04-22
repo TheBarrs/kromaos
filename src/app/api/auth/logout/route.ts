@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { successResponse } from "@/lib/api";
 
 export async function POST() {
