@@ -1,0 +1,500 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── ENUMS ────────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  EDITOR
+  CLIENT
+}
+
+enum TaskStatus {
+  BRIEFING
+  IN_PROGRESS
+  REVIEW
+  APPROVED
+  DELIVERED
+}
+
+enum PipelineStage {
+  IDEA
+  PRE_PRODUCTION
+  PRODUCTION
+  EDITING
+  INTERNAL_REVIEW
+  CLIENT_REVIEW
+  APPROVED
+  SCHEDULED
+}
+
+enum CrmStage {
+  LEAD
+  CONTACTED
+  DIAGNOSIS
+  PROPOSAL_SENT
+  NEGOTIATION
+  WON
+  LOST
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  CHANGES_REQUESTED
+}
+
+enum WebhookEvent {
+  DEAL_WON
+  TASK_APPROVED
+  TASK_CREATED
+  CLIENT_CREATED
+  CARD_STAGE_CHANGED
+}
+
+// ─── AUTH ─────────────────────────────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String?
+  role      UserRole @default(EDITOR)
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  assignedTasks   Task[]           @relation("TaskAssignees")
+  ownedTasks      Task[]           @relation("TaskOwner")
+  cardAssignments ProductionCard[] @relation("CardAssignees")
+  comments        Comment[]
+  approvals       ApprovalVersion[]
+  crmDeals        CrmDeal[]        @relation("DealOwner")
+  sessions        Session[]
+  activityLogs    ActivityLog[]
+  webhooks        Webhook[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+// ─── CLIENTS ──────────────────────────────────────────────────────────────────
+
+model Client {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  phone     String?
+  company   String?
+  website   String?
+  logo      String?
+  notes     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  transactions    Transaction[]
+  subscriptions   Subscription[]
+  tasks           Task[]
+  productionCards ProductionCard[]
+  crmDeal         CrmDeal?
+  approvalAssets  ApprovalAsset[]
+  activityLogs    ActivityLog[]
+
+  @@map("clients")
+}
+
+// ─── MODULE 1: FINANCIAL ──────────────────────────────────────────────────────
+
+model Category {
+  id        String          @id @default(cuid())
+  name      String
+  color     String          @default("#6366f1")
+  type      TransactionType
+  createdAt DateTime        @default(now())
+
+  transactions Transaction[]
+
+  @@map("categories")
+}
+
+model Transaction {
+  id          String          @id @default(cuid())
+  title       String
+  amount      Decimal         @db.Decimal(12, 2)
+  type        TransactionType
+  date        DateTime
+  description String?
+  receipt     String?
+  categoryId  String?
+  clientId    String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  category Category? @relation(fields: [categoryId], references: [id])
+  client   Client?   @relation(fields: [clientId], references: [id])
+
+  @@map("transactions")
+}
+
+model Subscription {
+  id          String    @id @default(cuid())
+  name        String
+  amount      Decimal   @db.Decimal(12, 2)
+  billingDay  Int
+  isActive    Boolean   @default(true)
+  startDate   DateTime
+  endDate     DateTime?
+  clientId    String
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
+
+// ─── MODULE 2: TASK MANAGEMENT ────────────────────────────────────────────────
+
+model Project {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  color       String    @default("#6366f1")
+  clientId    String?
+  deadline    DateTime?
+  isArchived  Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  tasks Task[]
+
+  @@map("projects")
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  status      TaskStatus @default(BRIEFING)
+  priority    String     @default("MEDIUM")
+  dueDate     DateTime?
+  clientId    String?
+  projectId   String?
+  ownerId     String?
+  position    Int        @default(0)
+  tags        String[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  client        Client?            @relation(fields: [clientId], references: [id])
+  project       Project?           @relation(fields: [projectId], references: [id])
+  owner         User?              @relation("TaskOwner", fields: [ownerId], references: [id])
+  assignees     User[]             @relation("TaskAssignees")
+  comments      Comment[]          @relation("TaskComments")
+  statusHistory TaskStatusHistory[]
+  subTasks      SubTask[]
+  activityLogs  ActivityLog[]
+
+  @@map("tasks")
+}
+
+model TaskStatusHistory {
+  id         String     @id @default(cuid())
+  taskId     String
+  fromStatus TaskStatus?
+  toStatus   TaskStatus
+  changedAt  DateTime   @default(now())
+  changedBy  String?
+
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@map("task_status_history")
+}
+
+model SubTask {
+  id          String   @id @default(cuid())
+  taskId      String
+  title       String
+  completed   Boolean  @default(false)
+  position    Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  task Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@map("sub_tasks")
+}
+
+// ─── MODULE 3: PRODUCTION PIPELINE ───────────────────────────────────────────
+
+model ProductionCard {
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  stage       PipelineStage @default(IDEA)
+  position    Int           @default(0)
+  clientId    String?
+  dueDate     DateTime?
+  coverImage  String?
+  tags        String[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  client       Client?          @relation(fields: [clientId], references: [id])
+  assignees    User[]           @relation("CardAssignees")
+  attachments  Attachment[]
+  comments     Comment[]        @relation("CardComments")
+  stageHistory CardStageHistory[]
+  activityLogs ActivityLog[]
+
+  @@map("production_cards")
+}
+
+model CardStageHistory {
+  id        String        @id @default(cuid())
+  cardId    String
+  fromStage PipelineStage?
+  toStage   PipelineStage
+  changedAt DateTime      @default(now())
+  changedBy String?
+
+  card ProductionCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@map("card_stage_history")
+}
+
+model Attachment {
+  id        String   @id @default(cuid())
+  name      String
+  url       String
+  mimeType  String
+  size      Int
+  cardId    String?
+  assetId   String?
+  createdAt DateTime @default(now())
+
+  card  ProductionCard? @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  asset ApprovalAsset?  @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@map("attachments")
+}
+
+// ─── MODULE 4: CREATIVE APPROVAL ─────────────────────────────────────────────
+
+model ApprovalAsset {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  clientId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  client      Client?           @relation(fields: [clientId], references: [id])
+  versions    ApprovalVersion[]
+  attachments Attachment[]
+
+  @@map("approval_assets")
+}
+
+model ApprovalVersion {
+  id            String         @id @default(cuid())
+  assetId       String
+  versionNumber Int
+  fileUrl       String
+  mimeType      String
+  status        ApprovalStatus @default(PENDING)
+  uploadedById  String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  asset      ApprovalAsset      @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  uploadedBy User?              @relation(fields: [uploadedById], references: [id])
+  comments   TimestampComment[]
+
+  @@map("approval_versions")
+}
+
+model TimestampComment {
+  id         String   @id @default(cuid())
+  versionId  String
+  authorId   String?
+  authorName String
+  content    String
+  timestamp  Float?
+  resolved   Boolean  @default(false)
+  parentId   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  version ApprovalVersion    @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  replies TimestampComment[] @relation("CommentReplies")
+  parent  TimestampComment?  @relation("CommentReplies", fields: [parentId], references: [id])
+
+  @@map("timestamp_comments")
+}
+
+// ─── MODULE 5: CRM ────────────────────────────────────────────────────────────
+
+model CrmDeal {
+  id            String    @id @default(cuid())
+  name          String
+  stage         CrmStage  @default(LEAD)
+  value         Decimal?  @db.Decimal(12, 2)
+  source        String?
+  probability   Int       @default(0)
+  expectedClose DateTime?
+  clientId      String?   @unique
+  ownerId       String?
+  position      Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  client       Client?          @relation(fields: [clientId], references: [id])
+  owner        User?            @relation("DealOwner", fields: [ownerId], references: [id])
+  notes        CrmNote[]
+  followUps    CrmFollowUp[]
+  stageHistory DealStageHistory[]
+  activityLogs ActivityLog[]
+
+  @@map("crm_deals")
+}
+
+model CrmNote {
+  id        String   @id @default(cuid())
+  dealId    String
+  content   String
+  authorId  String?
+  createdAt DateTime @default(now())
+
+  deal CrmDeal @relation(fields: [dealId], references: [id], onDelete: Cascade)
+
+  @@map("crm_notes")
+}
+
+model CrmFollowUp {
+  id          String    @id @default(cuid())
+  dealId      String
+  title       String
+  dueAt       DateTime
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+
+  deal CrmDeal @relation(fields: [dealId], references: [id], onDelete: Cascade)
+
+  @@map("crm_follow_ups")
+}
+
+model DealStageHistory {
+  id        String    @id @default(cuid())
+  dealId    String
+  fromStage CrmStage?
+  toStage   CrmStage
+  changedAt DateTime  @default(now())
+  changedBy String?
+
+  deal CrmDeal @relation(fields: [dealId], references: [id], onDelete: Cascade)
+
+  @@map("deal_stage_history")
+}
+
+// ─── SHARED: COMMENTS ────────────────────────────────────────────────────────
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  authorId  String?
+  taskId    String?
+  cardId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author User?           @relation(fields: [authorId], references: [id])
+  task   Task?           @relation("TaskComments", fields: [taskId], references: [id], onDelete: Cascade)
+  card   ProductionCard? @relation("CardComments", fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+// ─── ACTIVITY LOG ────────────────────────────────────────────────────────────
+
+model ActivityLog {
+  id         String   @id @default(cuid())
+  entityType String
+  entityId   String
+  action     String
+  meta       Json?
+  userId     String?
+  clientId   String?
+  taskId     String?
+  cardId     String?
+  dealId     String?
+  createdAt  DateTime @default(now())
+
+  user   User?           @relation(fields: [userId], references: [id])
+  client Client?         @relation(fields: [clientId], references: [id])
+  task   Task?           @relation(fields: [taskId], references: [id])
+  card   ProductionCard? @relation(fields: [cardId], references: [id])
+  deal   CrmDeal?        @relation(fields: [dealId], references: [id])
+
+  @@map("activity_logs")
+}
+
+// ─── WEBHOOKS ────────────────────────────────────────────────────────────────
+
+model Webhook {
+  id        String         @id @default(cuid())
+  name      String
+  url       String
+  events    WebhookEvent[]
+  secret    String?
+  isActive  Boolean        @default(true)
+  userId    String
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deliveries WebhookDelivery[]
+
+  @@map("webhooks")
+}
+
+model WebhookDelivery {
+  id         String       @id @default(cuid())
+  webhookId  String
+  event      WebhookEvent
+  payload    Json
+  statusCode Int?
+  response   String?
+  success    Boolean      @default(false)
+  createdAt  DateTime     @default(now())
+
+  webhook Webhook @relation(fields: [webhookId], references: [id], onDelete: Cascade)
+
+  @@map("webhook_deliveries")
+}
