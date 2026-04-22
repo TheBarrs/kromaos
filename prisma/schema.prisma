@@ -11,9 +11,8 @@ datasource db {
 
 enum UserRole {
   ADMIN
-  MANAGER
-  EDITOR
-  CLIENT
+  EQUIPE
+  CLIENTE
 }
 
 enum UserStatus {
@@ -77,7 +76,7 @@ model User {
   name      String
   email     String     @unique
   password  String?
-  role      UserRole   @default(EDITOR)
+  role      UserRole   @default(EQUIPE)
   status    UserStatus @default(PENDING)
   avatar    String?
   createdAt DateTime   @default(now())

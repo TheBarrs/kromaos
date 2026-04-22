@@ -8,7 +8,7 @@ import { z } from "zod";
 
 const schema = z.object({
   status: z.enum(["PENDING", "ACTIVE", "SUSPENDED"]).optional(),
-  role: z.enum(["ADMIN", "MANAGER", "EDITOR", "CLIENT"]).optional(),
+  role: z.enum(["ADMIN", "EQUIPE", "CLIENTE"]).optional(),
 });
 
 type Ctx = { params: Promise<{ id: string }> };
@@ -23,7 +23,8 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
   const parsed = schema.safeParse(body);
   if (!parsed.success) return errorResponse("Invalid input", 400);
 
-  const updated = await prisma.user.update({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updated = await (prisma.user.update as any)({
     where: { id },
     data: parsed.data,
     select: { id: true, name: true, email: true, role: true, status: true },

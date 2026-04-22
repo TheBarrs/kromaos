@@ -43,7 +43,7 @@ export type SubTask = {
   updatedAt: Date;
 };
 
-export type AuthUser = Pick<User, "id" | "name" | "email" | "role" | "avatar"> & { status: UserStatus };
+export type AuthUser = { id: string; name: string; email: string; role: string; avatar: string | null; status: UserStatus };
 
 export type TaskWithRelations = Task & {
   client?: Pick<Client, "id" | "name"> | null;

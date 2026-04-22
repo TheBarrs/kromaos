@@ -9,24 +9,30 @@ import {
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/auth";
 
-const NAV_ITEMS = [
-  { href: "/dashboard",  label: "Dashboard",  icon: LayoutDashboard },
-  { href: "/clients",    label: "Clientes",    icon: Users },
-  { href: "/financial",  label: "Financeiro",  icon: DollarSign },
-  { href: "/tasks",      label: "Tarefas",     icon: CheckSquare },
-  { href: "/pipeline",   label: "Pipeline",    icon: Film },
-  { href: "/approvals",  label: "Aprovações",  icon: Eye },
-  { href: "/crm",        label: "CRM",         icon: TrendingUp },
+type NavItem = { href: string; label: string; icon: React.ElementType; roles: string[] };
+
+const NAV_ITEMS: NavItem[] = [
+  { href: "/dashboard", label: "Dashboard",  icon: LayoutDashboard, roles: ["ADMIN", "EQUIPE"] },
+  { href: "/clients",   label: "Clientes",   icon: Users,           roles: ["ADMIN", "EQUIPE"] },
+  { href: "/financial", label: "Financeiro", icon: DollarSign,      roles: ["ADMIN"] },
+  { href: "/tasks",     label: "Tarefas",    icon: CheckSquare,     roles: ["ADMIN", "EQUIPE"] },
+  { href: "/pipeline",  label: "Pipeline",   icon: Film,            roles: ["ADMIN", "EQUIPE", "CLIENTE"] },
+  { href: "/approvals", label: "Aprovações", icon: Eye,             roles: ["ADMIN", "EQUIPE", "CLIENTE"] },
+  { href: "/crm",       label: "CRM",        icon: TrendingUp,      roles: ["ADMIN", "EQUIPE"] },
 ];
 
-const BOTTOM_ITEMS = [
-  { href: "/settings",  label: "Configurações", icon: Settings },
-  { href: "/webhooks",  label: "Webhooks",      icon: Webhook },
+const BOTTOM_ITEMS: NavItem[] = [
+  { href: "/settings", label: "Configurações", icon: Settings, roles: ["ADMIN", "EQUIPE", "CLIENTE"] },
+  { href: "/webhooks", label: "Webhooks",      icon: Webhook,  roles: ["ADMIN"] },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
   const { user, logout } = useAuthStore();
+  const role = user?.role ?? "";
+
+  const visibleNav    = NAV_ITEMS.filter((i) => i.roles.includes(role));
+  const visibleBottom = BOTTOM_ITEMS.filter((i) => i.roles.includes(role));
 
   return (
     <aside className="flex h-full w-60 shrink-0 flex-col border-r border-[var(--border)] bg-[var(--surface-1)]">
@@ -40,7 +46,7 @@ export function Sidebar() {
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-0.5">
-        {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
+        {visibleNav.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(href + "/");
           return (
             <Link
@@ -62,7 +68,7 @@ export function Sidebar() {
 
       {/* Bottom */}
       <div className="border-t border-[var(--border)] px-3 py-3 space-y-0.5">
-        {user?.role === "ADMIN" && (
+        {role === "ADMIN" && (
           <Link
             href="/admin"
             className={cn(
@@ -76,7 +82,7 @@ export function Sidebar() {
             Admin
           </Link>
         )}
-        {BOTTOM_ITEMS.map(({ href, label, icon: Icon }) => (
+        {visibleBottom.map(({ href, label, icon: Icon }) => (
           <Link
             key={href}
             href={href}
@@ -97,7 +103,9 @@ export function Sidebar() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-xs font-medium truncate">{user?.name ?? "Usuário"}</p>
-            <p className="text-[10px] text-[var(--muted-fg)] truncate capitalize">{user?.role?.toLowerCase()}</p>
+            <p className="text-[10px] text-[var(--muted-fg)] truncate">
+              {role === "ADMIN" ? "Admin" : role === "EQUIPE" ? "Equipe" : role === "CLIENTE" ? "Cliente" : role}
+            </p>
           </div>
           <button onClick={logout} className="text-[var(--muted-fg)] hover:text-red-400 transition-colors">
             <LogOut className="h-4 w-4" />

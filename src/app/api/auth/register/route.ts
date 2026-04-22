@@ -10,7 +10,7 @@ const schema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
   password: z.string().min(6),
-  role: z.enum(["ADMIN", "MANAGER", "EDITOR", "CLIENT"]).optional(),
+  role: z.enum(["ADMIN", "EQUIPE", "CLIENTE"]).optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -25,10 +25,12 @@ export async function POST(req: NextRequest) {
 
   const hashed = await hashPassword(password);
   const isOwner = email === "eldervictor.0@gmail.com";
-  const user = await prisma.user.create({
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const user = await (prisma.user.create as any)({
     data: {
       name, email, password: hashed,
-      role: isOwner ? "ADMIN" : (role ?? "EDITOR"),
+      role: isOwner ? "ADMIN" : (role ?? "EQUIPE"),
       status: isOwner ? "ACTIVE" : "PENDING",
     },
     select: { id: true, name: true, email: true, role: true, status: true, avatar: true },
