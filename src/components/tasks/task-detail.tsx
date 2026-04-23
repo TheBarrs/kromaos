@@ -278,7 +278,7 @@ export function TaskDetail({ task: initialTask }: { task: Task }) {
                 onChange={(e) => setEditForm((f) => ({ ...f, description: e.target.value }))}
                 placeholder="Detalhes da tarefa..."
                 rows={4}
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#6366f1] resize-none"
+                className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#f97316] resize-none"
               />
             </div>
 
@@ -288,7 +288,7 @@ export function TaskDetail({ task: initialTask }: { task: Task }) {
                 <select
                   value={editForm.priority}
                   onChange={(e) => setEditForm((f) => ({ ...f, priority: e.target.value }))}
-                  className="h-9 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#6366f1]"
+                  className="h-9 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#f97316]"
                 >
                   {PRIORITY_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
                 </select>
@@ -306,7 +306,7 @@ export function TaskDetail({ task: initialTask }: { task: Task }) {
               <select
                 value={editForm.clientId}
                 onChange={(e) => setEditForm((f) => ({ ...f, clientId: e.target.value }))}
-                className="h-9 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#6366f1]"
+                className="h-9 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#f97316]"
               >
                 <option value="">Nenhum</option>
                 {clients.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -323,7 +323,7 @@ export function TaskDetail({ task: initialTask }: { task: Task }) {
                   onChange={(e) => setTagInput(e.target.value)}
                   onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag(); } }}
                   placeholder="Nova tag + Enter"
-                  className="flex-1 h-9 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#6366f1]"
+                  className="flex-1 h-9 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#f97316]"
                 />
                 <Button type="button" variant="outline" size="sm" onClick={addTag}>
                   <Plus className="h-3.5 w-3.5" />
@@ -335,7 +335,7 @@ export function TaskDetail({ task: initialTask }: { task: Task }) {
                     <span
                       key={tag}
                       onClick={() => removeTag(tag)}
-                      className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-[#6366f1]/15 text-[#818cf8] cursor-pointer hover:bg-red-500/15 hover:text-red-400 transition-colors"
+                      className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-[#f97316]/15 text-[#fb923c] cursor-pointer hover:bg-red-500/15 hover:text-red-400 transition-colors"
                     >
                       {tag} ×
                     </span>
@@ -367,7 +367,7 @@ export function TaskDetail({ task: initialTask }: { task: Task }) {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2 text-sm">
-                <CheckSquare className="h-4 w-4 text-[#6366f1]" />
+                <CheckSquare className="h-4 w-4 text-[#f97316]" />
                 Subtarefas
                 {subTasks.length > 0 && (
                   <span className="text-xs text-[var(--muted-fg)]">{completed}/{subTasks.length}</span>
@@ -376,7 +376,7 @@ export function TaskDetail({ task: initialTask }: { task: Task }) {
             </div>
             {subTasks.length > 0 && (
               <div className="mt-2 h-1.5 w-full rounded-full bg-[var(--surface-2)]">
-                <div className="h-full rounded-full bg-[#6366f1] transition-all" style={{ width: `${progress}%` }} />
+                <div className="h-full rounded-full bg-[#f97316] transition-all" style={{ width: `${progress}%` }} />
               </div>
             )}
           </CardHeader>
@@ -387,7 +387,7 @@ export function TaskDetail({ task: initialTask }: { task: Task }) {
                   onClick={() => toggleSubTask(st)}
                   className={cn(
                     "flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors",
-                    st.completed ? "border-[#6366f1] bg-[#6366f1] text-white" : "border-[var(--border)] hover:border-[#6366f1]"
+                    st.completed ? "border-[#f97316] bg-[#f97316] text-white" : "border-[var(--border)] hover:border-[#f97316]"
                   )}
                 >
                   {st.completed && <Check className="h-2.5 w-2.5" />}
@@ -408,7 +408,7 @@ export function TaskDetail({ task: initialTask }: { task: Task }) {
                 onChange={(e) => setNewSubTask(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSubTask(); } }}
                 placeholder="Adicionar subtarefa..."
-                className="flex-1 h-8 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#6366f1]"
+                className="flex-1 h-8 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#f97316]"
               />
               <Button size="sm" variant="outline" isLoading={addingSubTask} onClick={addSubTask}>
                 <Plus className="h-3.5 w-3.5" />
@@ -421,7 +421,7 @@ export function TaskDetail({ task: initialTask }: { task: Task }) {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-sm">
-              <MessageSquare className="h-4 w-4 text-[#6366f1]" />
+              <MessageSquare className="h-4 w-4 text-[#f97316]" />
               Comentários ({localComments.length})
             </CardTitle>
           </CardHeader>
@@ -448,7 +448,7 @@ export function TaskDetail({ task: initialTask }: { task: Task }) {
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Escreva um comentário..."
                 rows={2}
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#6366f1] resize-none"
+                className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#f97316] resize-none"
               />
               <Button size="sm" isLoading={submittingComment} onClick={submitComment}>Comentar</Button>
             </div>
@@ -467,7 +467,7 @@ export function TaskDetail({ task: initialTask }: { task: Task }) {
             value={task.status}
             onChange={(e) => updateStatus(e.target.value)}
             disabled={updatingStatus}
-            className="w-full h-9 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#6366f1] disabled:opacity-50"
+            className="w-full h-9 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#f97316] disabled:opacity-50"
           >
             {STATUS_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
           </select>

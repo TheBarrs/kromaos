@@ -85,13 +85,13 @@ export function TaskCalendar({ tasks }: Props) {
                 className={cn(
                   "border border-[var(--border)] p-1.5 cursor-pointer transition-colors overflow-hidden",
                   !isCurrentMonth && "opacity-30",
-                  isSelected && "bg-[#6366f1]/10 border-[#6366f1]/50",
+                  isSelected && "bg-[#f97316]/10 border-[#f97316]/50",
                   !isSelected && "hover:bg-[var(--surface-2)]"
                 )}
               >
                 <div className={cn(
                   "flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium mb-1",
-                  todayDay && "bg-[#6366f1] text-white",
+                  todayDay && "bg-[#f97316] text-white",
                   !todayDay && isCurrentMonth && "text-[var(--foreground)]",
                 )}>
                   {format(day, "d")}
@@ -100,7 +100,7 @@ export function TaskCalendar({ tasks }: Props) {
                   {dayTasks.slice(0, 3).map((t) => (
                     <div
                       key={t.id}
-                      className="flex items-center gap-1 text-[10px] rounded px-1 py-0.5 bg-[var(--surface-2)] truncate hover:bg-[#6366f1]/20 transition-colors"
+                      className="flex items-center gap-1 text-[10px] rounded px-1 py-0.5 bg-[var(--surface-2)] truncate hover:bg-[#f97316]/20 transition-colors"
                       onClick={(e) => { e.stopPropagation(); router.push(`/tasks/${t.id}`); }}
                     >
                       <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", STATUS_DOT[t.status])} />
@@ -131,7 +131,7 @@ export function TaskCalendar({ tasks }: Props) {
                 <div
                   key={t.id}
                   onClick={() => router.push(`/tasks/${t.id}`)}
-                  className="rounded-lg border border-[var(--border)] bg-[var(--surface-1)] p-3 cursor-pointer hover:border-[#6366f1]/50 transition-colors"
+                  className="rounded-lg border border-[var(--border)] bg-[var(--surface-1)] p-3 cursor-pointer hover:border-[#f97316]/50 transition-colors"
                 >
                   <div className="flex items-start gap-2">
                     <span className={cn("mt-1 h-2 w-2 shrink-0 rounded-full", STATUS_DOT[t.status])} />

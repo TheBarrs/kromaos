@@ -21,7 +21,7 @@ export function Topbar({ title }: TopbarProps) {
       <div className="flex items-center gap-2">
         <button className="relative flex h-8 w-8 items-center justify-center rounded-lg hover:bg-[var(--surface-2)] transition-colors">
           <Bell className="h-4 w-4 text-[var(--muted-fg)]" />
-          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-[#6366f1]" />
+          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-[#f97316]" />
         </button>
       </div>
     </header>

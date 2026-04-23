@@ -67,7 +67,7 @@ export default function SettingsPage() {
           <CardContent>
             <form onSubmit={handleSave} className="space-y-4">
               <div className="flex items-center gap-4">
-                <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-[#6366f1]/20 text-[#818cf8] text-xl font-semibold">
+                <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-[#f97316]/20 text-[#fb923c] text-xl font-semibold">
                   {user?.name?.[0]?.toUpperCase() ?? "U"}
                 </div>
                 <div>

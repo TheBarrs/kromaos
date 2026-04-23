@@ -55,7 +55,7 @@ export function WebhookForm() {
                     type="checkbox"
                     checked={selectedEvents.includes(ev)}
                     onChange={() => toggleEvent(ev)}
-                    className="rounded accent-[#6366f1]"
+                    className="rounded accent-[#f97316]"
                   />
                   <span className="text-[var(--foreground)]">{ev}</span>
                 </label>

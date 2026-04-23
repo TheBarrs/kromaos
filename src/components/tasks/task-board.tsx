@@ -64,9 +64,9 @@ export function TaskBoard({ tasks }: Props) {
                   draggable
                   onDragStart={(e) => e.dataTransfer.setData("taskId", task.id)}
                   onClick={() => router.push(`/tasks/${task.id}`)}
-                  className="rounded-xl border border-[var(--border)] bg-[var(--surface-1)] p-4 cursor-pointer hover:border-[#6366f1]/50 hover:shadow-lg hover:shadow-[#6366f1]/5 transition-all group"
+                  className="rounded-xl border border-[var(--border)] bg-[var(--surface-1)] p-4 cursor-pointer hover:border-[#f97316]/50 hover:shadow-lg hover:shadow-[#f97316]/5 transition-all group"
                 >
-                  <p className="text-sm font-medium leading-snug group-hover:text-[#818cf8] transition-colors">
+                  <p className="text-sm font-medium leading-snug group-hover:text-[#fb923c] transition-colors">
                     {task.title}
                   </p>
 

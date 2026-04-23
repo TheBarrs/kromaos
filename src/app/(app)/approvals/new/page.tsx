@@ -106,7 +106,7 @@ export default function NewApprovalPage() {
                 onClick={() => fileInputRef.current?.click()}
                 className={cn(
                   "relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed cursor-pointer transition-colors min-h-[200px]",
-                  dragging ? "border-[#6366f1] bg-[#6366f1]/10" : "border-[var(--border)] hover:border-[#6366f1]/50 hover:bg-[var(--surface-2)]"
+                  dragging ? "border-[#f97316] bg-[#f97316]/10" : "border-[var(--border)] hover:border-[#f97316]/50 hover:bg-[var(--surface-2)]"
                 )}
               >
                 <input
@@ -165,7 +165,7 @@ export default function NewApprovalPage() {
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                   placeholder="Contexto, instruções..."
                   rows={3}
-                  className="flex w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#6366f1] resize-none"
+                  className="flex w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#f97316] resize-none"
                 />
               </div>
 
@@ -174,7 +174,7 @@ export default function NewApprovalPage() {
                 <select
                   value={form.clientId}
                   onChange={(e) => setForm({ ...form, clientId: e.target.value })}
-                  className="flex h-9 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#6366f1]"
+                  className="flex h-9 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#f97316]"
                 >
                   <option value="">Nenhum</option>
                   {clients.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}

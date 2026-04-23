@@ -53,7 +53,7 @@ export default async function FinancialPage() {
             { label: "Receita do Mês",  value: data.income,   icon: TrendingUp,   color: "text-emerald-400" },
             { label: "Despesas do Mês", value: data.expenses, icon: TrendingDown,  color: "text-red-400" },
             { label: "Lucro Líquido",   value: data.profit,   icon: DollarSign,    color: data.profit >= 0 ? "text-emerald-400" : "text-red-400" },
-            { label: "MRR",             value: data.mrr,      icon: TrendingUp,    color: "text-[#818cf8]" },
+            { label: "MRR",             value: data.mrr,      icon: TrendingUp,    color: "text-[#fb923c]" },
           ].map(({ label, value, icon: Icon, color }) => (
             <Card key={label}>
               <div className="flex items-start justify-between">
@@ -138,7 +138,7 @@ export default async function FinancialPage() {
               {data.subscriptions.length > 0 && (
                 <div className="flex items-center justify-between pt-3 border-t border-[var(--border)] text-sm font-semibold">
                   <span>Total MRR</span>
-                  <span className="text-[#818cf8] tabular-nums">{formatCurrency(data.mrr)}</span>
+                  <span className="text-[#fb923c] tabular-nums">{formatCurrency(data.mrr)}</span>
                 </div>
               )}
             </CardContent>

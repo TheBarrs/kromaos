@@ -53,7 +53,7 @@ export function Sidebar() {
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
                 active
-                  ? "bg-[#6366f1]/15 text-[#818cf8] font-medium"
+                  ? "bg-[#f97316]/15 text-[#fb923c] font-medium"
                   : "text-[var(--muted-fg)] hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
               )}
             >
@@ -72,7 +72,7 @@ export function Sidebar() {
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
               pathname.startsWith("/admin")
-                ? "bg-[#6366f1]/15 text-[#818cf8] font-medium"
+                ? "bg-[#f97316]/15 text-[#fb923c] font-medium"
                 : "text-[var(--muted-fg)] hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
             )}
           >
@@ -96,7 +96,7 @@ export function Sidebar() {
 
         {/* User */}
         <div className="flex items-center gap-3 rounded-lg px-3 py-2 mt-2">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#6366f1]/20 text-[#818cf8] text-xs font-semibold uppercase">
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f97316]/20 text-[#fb923c] text-xs font-semibold uppercase">
             {user?.name?.[0] ?? "U"}
           </div>
           <div className="min-w-0 flex-1">

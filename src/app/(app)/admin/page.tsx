@@ -91,8 +91,8 @@ export default function AdminPage() {
           ].map(({ label, value, icon: Icon }) => (
             <Card key={label}>
               <CardContent className="flex items-center gap-3 py-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#6366f1]/15">
-                  <Icon className="h-5 w-5 text-[#818cf8]" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#f97316]/15">
+                  <Icon className="h-5 w-5 text-[#fb923c]" />
                 </div>
                 <div>
                   <p className="text-2xl font-bold">{value}</p>
@@ -117,7 +117,7 @@ export default function AdminPage() {
                 <div key={u.id} className="rounded-lg border border-[var(--border)] p-4 space-y-3">
                   {/* User info */}
                   <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#6366f1]/20 text-[#818cf8] text-sm font-semibold uppercase">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f97316]/20 text-[#fb923c] text-sm font-semibold uppercase">
                       {u.name[0]}
                     </div>
                     <div>
@@ -136,7 +136,7 @@ export default function AdminPage() {
                           onClick={() => setPendingRoles((p) => ({ ...p, [u.id]: r.value }))}
                           className={`rounded-lg border p-2.5 text-left transition-colors ${
                             (pendingRoles[u.id] ?? "EQUIPE") === r.value
-                              ? "border-[#6366f1] bg-[#6366f1]/10 text-[#818cf8]"
+                              ? "border-[#f97316] bg-[#f97316]/10 text-[#fb923c]"
                               : "border-[var(--border)] hover:bg-[var(--surface-2)]"
                           }`}
                         >
@@ -167,7 +167,7 @@ export default function AdminPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-sm">
-              <ShieldCheck className="h-4 w-4 text-[#6366f1]" />
+              <ShieldCheck className="h-4 w-4 text-[#f97316]" />
               Usuários ativos ({active.length})
             </CardTitle>
           </CardHeader>
@@ -175,7 +175,7 @@ export default function AdminPage() {
             {active.map((u) => (
               <div key={u.id} className="flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 hover:bg-[var(--surface-2)]">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#6366f1]/20 text-[#818cf8] text-xs font-semibold uppercase">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f97316]/20 text-[#fb923c] text-xs font-semibold uppercase">
                     {u.name[0]}
                   </div>
                   <div className="min-w-0">
@@ -190,7 +190,7 @@ export default function AdminPage() {
                       value={u.role}
                       onChange={(e) => updateUser(u.id, { role: e.target.value })}
                       disabled={updating === u.id}
-                      className="text-xs rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-2 py-1 focus:outline-none focus:ring-1 focus:ring-[#6366f1]"
+                      className="text-xs rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-2 py-1 focus:outline-none focus:ring-1 focus:ring-[#f97316]"
                     >
                       <option value="EQUIPE">Equipe</option>
                       <option value="CLIENTE">Cliente</option>

@@ -50,15 +50,15 @@ export default async function ApprovalsPage() {
 
             return (
               <Link key={asset.id} href={`/approvals/${asset.id}`}>
-                <Card className="hover:border-[#6366f1]/50 hover:shadow-lg hover:shadow-[#6366f1]/5 transition-all cursor-pointer group">
+                <Card className="hover:border-[#f97316]/50 hover:shadow-lg hover:shadow-[#f97316]/5 transition-all cursor-pointer group">
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--surface-2)] text-[var(--muted-fg)] group-hover:text-[#818cf8] transition-colors">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--surface-2)] text-[var(--muted-fg)] group-hover:text-[#fb923c] transition-colors">
                       {isVideo ? <Film className="h-4 w-4" /> : <Image className="h-4 w-4" />}
                     </div>
                     <Badge variant={status.variant}>{status.label}</Badge>
                   </div>
 
-                  <h3 className="font-medium text-sm group-hover:text-[#818cf8] transition-colors">{asset.title}</h3>
+                  <h3 className="font-medium text-sm group-hover:text-[#fb923c] transition-colors">{asset.title}</h3>
                   {asset.client && <p className="text-xs text-[var(--muted-fg)] mt-1">{asset.client.name}</p>}
                   {asset.description && <p className="text-xs text-[var(--muted-fg)] mt-1 line-clamp-2">{asset.description}</p>}
 
@@ -66,7 +66,7 @@ export default async function ApprovalsPage() {
                     <span className="text-[10px] text-[var(--muted-fg)]">
                       {latest ? `v${latest.versionNumber}` : "—"} · {formatRelativeTime(asset.updatedAt)}
                     </span>
-                    <span className="flex items-center gap-1 text-xs text-[#818cf8]">
+                    <span className="flex items-center gap-1 text-xs text-[#fb923c]">
                       <Eye className="h-3.5 w-3.5" />Revisar
                     </span>
                   </div>

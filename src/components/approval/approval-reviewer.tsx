@@ -118,8 +118,8 @@ export function ApprovalReviewer({ asset }: { asset: Asset }) {
                 onClick={() => setActiveVersionIdx(i)}
                 className={`text-xs px-2.5 py-1 rounded-lg border transition-colors ${
                   i === activeVersionIdx
-                    ? "border-[#6366f1] bg-[#6366f1]/10 text-[#818cf8]"
-                    : "border-[var(--border)] text-[var(--muted-fg)] hover:border-[#6366f1]/50"
+                    ? "border-[#f97316] bg-[#f97316]/10 text-[#fb923c]"
+                    : "border-[var(--border)] text-[var(--muted-fg)] hover:border-[#f97316]/50"
                 }`}
               >
                 v{v.versionNumber}
@@ -148,7 +148,7 @@ export function ApprovalReviewer({ asset }: { asset: Asset }) {
               <div className="flex items-start justify-between gap-2">
                 <p className="text-xs font-semibold">{c.authorName}</p>
                 {c.timestamp !== null && (
-                  <span className="flex items-center gap-0.5 text-[10px] text-[#818cf8] shrink-0">
+                  <span className="flex items-center gap-0.5 text-[10px] text-[#fb923c] shrink-0">
                     <Clock className="h-2.5 w-2.5" />
                     {Math.floor(c.timestamp / 60)}:{String(Math.floor(c.timestamp % 60)).padStart(2, "0")}
                   </span>
@@ -176,7 +176,7 @@ export function ApprovalReviewer({ asset }: { asset: Asset }) {
             onChange={(e) => setComment(e.target.value)}
             placeholder="Adicionar comentário..."
             rows={3}
-            className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] p-2.5 text-xs resize-none focus:outline-none focus:ring-2 focus:ring-[#6366f1]"
+            className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] p-2.5 text-xs resize-none focus:outline-none focus:ring-2 focus:ring-[#f97316]"
           />
           <Button size="sm" className="w-full mt-2" isLoading={submitting} onClick={submitComment}>
             Comentar

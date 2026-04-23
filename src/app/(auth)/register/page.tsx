@@ -56,7 +56,7 @@ export default function RegisterPage() {
           </form>
 
           <p className="text-center text-sm text-[var(--muted-fg)] mt-5">
-            Já tem conta? <Link href="/login" className="text-[#818cf8] hover:underline">Entrar</Link>
+            Já tem conta? <Link href="/login" className="text-[#fb923c] hover:underline">Entrar</Link>
           </p>
         </div>
       </div>

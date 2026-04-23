@@ -52,7 +52,7 @@ export default async function WebhooksPage() {
               <Card key={wh.id}>
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--surface-2)]">
-                    <Webhook className="h-5 w-5 text-[#818cf8]" />
+                    <Webhook className="h-5 w-5 text-[#fb923c]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">

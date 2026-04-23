@@ -127,9 +127,9 @@ export function CrmPipeline({ deals }: Props) {
                     draggable
                     onDragStart={(e) => e.dataTransfer.setData("dealId", deal.id)}
                     onClick={() => router.push(`/crm/${deal.id}`)}
-                    className="rounded-xl border border-[var(--border)] bg-[var(--surface-1)] p-3.5 cursor-pointer hover:border-[#6366f1]/50 hover:shadow-md transition-all group"
+                    className="rounded-xl border border-[var(--border)] bg-[var(--surface-1)] p-3.5 cursor-pointer hover:border-[#f97316]/50 hover:shadow-md transition-all group"
                   >
-                    <p className="text-xs font-medium group-hover:text-[#818cf8] transition-colors">
+                    <p className="text-xs font-medium group-hover:text-[#fb923c] transition-colors">
                       {deal.name}
                     </p>
 
@@ -151,7 +151,7 @@ export function CrmPipeline({ deals }: Props) {
                         {(deal._count?.followUps ?? 0) > 0 && (
                           <span className="flex items-center gap-0.5"><Bell className="h-3 w-3" />{deal._count!.followUps}</span>
                         )}
-                        <span className="font-medium text-[#818cf8]">{stage.prob}%</span>
+                        <span className="font-medium text-[#fb923c]">{stage.prob}%</span>
                       </div>
 
                       {deal.owner && (

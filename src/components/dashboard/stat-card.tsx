@@ -12,7 +12,7 @@ type StatCardProps = {
   iconColor?: string;
 };
 
-export function StatCard({ title, value, subtitle, growth, icon: Icon, iconColor = "text-[#6366f1]" }: StatCardProps) {
+export function StatCard({ title, value, subtitle, growth, icon: Icon, iconColor = "text-[#f97316]" }: StatCardProps) {
   const isPositive = growth !== undefined && growth > 0;
   const isNegative = growth !== undefined && growth < 0;
 

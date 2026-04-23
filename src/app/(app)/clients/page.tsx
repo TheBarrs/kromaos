@@ -32,9 +32,9 @@ export default async function ClientsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {clients.map((client) => (
             <Link key={client.id} href={`/clients/${client.id}`}>
-              <Card className="hover:border-[#6366f1]/50 hover:shadow-lg hover:shadow-[#6366f1]/5 transition-all cursor-pointer group">
+              <Card className="hover:border-[#f97316]/50 hover:shadow-lg hover:shadow-[#f97316]/5 transition-all cursor-pointer group">
                 <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#6366f1]/15 text-[#818cf8] font-semibold text-sm">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#f97316]/15 text-[#fb923c] font-semibold text-sm">
                     {client.logo ? (
                       <img src={client.logo} alt="" className="h-10 w-10 rounded-xl object-cover" />
                     ) : (
@@ -42,7 +42,7 @@ export default async function ClientsPage() {
                     )}
                   </div>
                   <div className="min-w-0">
-                    <p className="font-medium group-hover:text-[#818cf8] transition-colors">{client.name}</p>
+                    <p className="font-medium group-hover:text-[#fb923c] transition-colors">{client.name}</p>
                     {client.company && <p className="text-xs text-[var(--muted-fg)] mt-0.5">{client.company}</p>}
                     {client.email && <p className="text-xs text-[var(--muted-fg)]">{client.email}</p>}
                   </div>

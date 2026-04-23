@@ -53,7 +53,7 @@ export function TaskListView({ tasks }: Props) {
             return (
               <tr key={task.id} className="hover:bg-[var(--surface-2)] transition-colors">
                 <td className="px-4 py-3">
-                  <Link href={`/tasks/${task.id}`} className="font-medium hover:text-[#818cf8] transition-colors">
+                  <Link href={`/tasks/${task.id}`} className="font-medium hover:text-[#fb923c] transition-colors">
                     {task.title}
                   </Link>
                   {(task._count?.comments ?? 0) > 0 && (

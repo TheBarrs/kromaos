@@ -123,7 +123,7 @@ export default function NewTaskPage() {
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                   placeholder="Detalhes adicionais..."
                   rows={3}
-                  className="flex w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#6366f1] resize-none"
+                  className="flex w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#f97316] resize-none"
                 />
               </div>
 
@@ -133,7 +133,7 @@ export default function NewTaskPage() {
                   <select
                     value={form.status}
                     onChange={(e) => setForm({ ...form, status: e.target.value })}
-                    className="flex h-9 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#6366f1]"
+                    className="flex h-9 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#f97316]"
                   >
                     {STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
                   </select>
@@ -143,7 +143,7 @@ export default function NewTaskPage() {
                   <select
                     value={form.priority}
                     onChange={(e) => setForm({ ...form, priority: e.target.value })}
-                    className="flex h-9 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#6366f1]"
+                    className="flex h-9 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#f97316]"
                   >
                     {PRIORITY_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
                   </select>
@@ -156,7 +156,7 @@ export default function NewTaskPage() {
                   <select
                     value={form.clientId}
                     onChange={(e) => setForm({ ...form, clientId: e.target.value })}
-                    className="flex h-9 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#6366f1]"
+                    className="flex h-9 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[#f97316]"
                   >
                     <option value="">Nenhum</option>
                     {clients.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -180,7 +180,7 @@ export default function NewTaskPage() {
                     onChange={(e) => setTagInput(e.target.value)}
                     onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag(); } }}
                     placeholder="Digite e pressione Enter"
-                    className="flex-1 h-9 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#6366f1]"
+                    className="flex-1 h-9 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[#f97316]"
                   />
                   <Button type="button" variant="outline" size="sm" onClick={addTag}>
                     <Plus className="h-3.5 w-3.5" />
@@ -192,7 +192,7 @@ export default function NewTaskPage() {
                       <span
                         key={tag}
                         onClick={() => removeTag(tag)}
-                        className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-[#6366f1]/15 text-[#818cf8] cursor-pointer hover:bg-red-500/15 hover:text-red-400 transition-colors"
+                        className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-[#f97316]/15 text-[#fb923c] cursor-pointer hover:bg-red-500/15 hover:text-red-400 transition-colors"
                       >
                         {tag} ×
                       </span>
@@ -202,14 +202,14 @@ export default function NewTaskPage() {
               </div>
 
               {/* Pipeline toggle */}
-              <div className={`rounded-xl border p-4 transition-colors ${addToPipeline ? "border-[#6366f1] bg-[#6366f1]/5" : "border-[var(--border)]"}`}>
+              <div className={`rounded-xl border p-4 transition-colors ${addToPipeline ? "border-[#f97316] bg-[#f97316]/5" : "border-[var(--border)]"}`}>
                 <button
                   type="button"
                   onClick={() => setAddToPipeline((v) => !v)}
                   className="flex items-center justify-between w-full"
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${addToPipeline ? "bg-[#6366f1]" : "bg-[var(--surface-3)]"}`}>
+                    <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${addToPipeline ? "bg-[#f97316]" : "bg-[var(--surface-3)]"}`}>
                       <Film className={`h-4 w-4 ${addToPipeline ? "text-white" : "text-[var(--muted-fg)]"}`} />
                     </div>
                     <div className="text-left">
@@ -217,7 +217,7 @@ export default function NewTaskPage() {
                       <p className="text-xs text-[var(--muted-fg)]">Cria um card vinculado na Pipeline de produção</p>
                     </div>
                   </div>
-                  <div className={`h-5 w-9 rounded-full transition-colors ${addToPipeline ? "bg-[#6366f1]" : "bg-[var(--surface-3)]"}`}>
+                  <div className={`h-5 w-9 rounded-full transition-colors ${addToPipeline ? "bg-[#f97316]" : "bg-[var(--surface-3)]"}`}>
                     <div className={`h-5 w-5 rounded-full bg-white shadow transition-transform ${addToPipeline ? "translate-x-4" : "translate-x-0"}`} />
                   </div>
                 </button>
@@ -233,7 +233,7 @@ export default function NewTaskPage() {
                           onClick={() => setForm((f) => ({ ...f, pipelineStage: s.value }))}
                           className={`rounded-lg px-2 py-1.5 text-xs text-center transition-colors ${
                             form.pipelineStage === s.value
-                              ? "bg-[#6366f1] text-white"
+                              ? "bg-[#f97316] text-white"
                               : "bg-[var(--surface-2)] text-[var(--muted-fg)] hover:bg-[var(--surface-3)]"
                           }`}
                         >

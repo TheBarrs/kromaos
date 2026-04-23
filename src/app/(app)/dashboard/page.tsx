@@ -106,7 +106,7 @@ export default async function DashboardPage() {
                 value={formatCurrency(data.mrr)}
                 subtitle="Receita recorrente mensal"
                 icon={TrendingUp}
-                iconColor="text-[#818cf8]"
+                iconColor="text-[#fb923c]"
               />
               <StatCard
                 title="Lucro do Mês"
@@ -129,7 +129,7 @@ export default async function DashboardPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <CheckSquare className="h-4 w-4 text-[#6366f1]" />
+                <CheckSquare className="h-4 w-4 text-[#f97316]" />
                 Tarefas
               </CardTitle>
             </CardHeader>
@@ -151,7 +151,7 @@ export default async function DashboardPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-[#6366f1]" />
+                <TrendingUp className="h-4 w-4 text-[#f97316]" />
                 Pipeline CRM
               </CardTitle>
             </CardHeader>
@@ -171,7 +171,7 @@ export default async function DashboardPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-[#6366f1]" />
+                <Clock className="h-4 w-4 text-[#f97316]" />
                 Próximas Tarefas
               </CardTitle>
             </CardHeader>
@@ -199,7 +199,7 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <AlertCircle className="h-4 w-4 text-[#6366f1]" />
+              <AlertCircle className="h-4 w-4 text-[#f97316]" />
               Atividade Recente
             </CardTitle>
           </CardHeader>
@@ -210,7 +210,7 @@ export default async function DashboardPage() {
             <ul className="space-y-3">
               {data.recentActivity.map((log) => (
                 <li key={log.id} className="flex items-start gap-3 text-sm">
-                  <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-[#6366f1] ring-4 ring-[#6366f1]/10" />
+                  <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-[#f97316] ring-4 ring-[#f97316]/10" />
                   <div className="min-w-0">
                     <p className="text-[var(--foreground)]">
                       <span className="font-medium capitalize">{log.action}</span>

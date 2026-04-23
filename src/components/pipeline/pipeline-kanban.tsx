@@ -105,13 +105,13 @@ export function PipelineKanban({ cards: initialCards }: Props) {
                   draggable
                   onDragStart={(e) => e.dataTransfer.setData("cardId", card.id)}
                   onClick={() => router.push(`/pipeline/${card.id}`)}
-                  className="rounded-xl border border-[var(--border)] bg-[var(--surface-1)] p-3.5 cursor-pointer hover:border-[#6366f1]/50 hover:shadow-md transition-all group"
+                  className="rounded-xl border border-[var(--border)] bg-[var(--surface-1)] p-3.5 cursor-pointer hover:border-[#f97316]/50 hover:shadow-md transition-all group"
                 >
                   {card.coverImage && (
                     <img src={card.coverImage} alt="" className="w-full h-24 object-cover rounded-lg mb-3" />
                   )}
 
-                  <p className="text-xs font-medium group-hover:text-[#818cf8] transition-colors leading-snug">
+                  <p className="text-xs font-medium group-hover:text-[#fb923c] transition-colors leading-snug">
                     {card.title}
                   </p>
 
